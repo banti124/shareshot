@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<a href="{{ backurl }}">&lt;&lt; back</a>
+    <div class="title"> {{ image.name }} [{% if image.private %}Private{% else %}Public{% endif %}] </div>
+    <div class="infobar">
+      Date: {{ image.created_date }}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="actions">
+      Actions:
+      <a href="{% url 'share:delete_photo' image.pk %}">Delete</a> 
+      {% if image.private %}
+      <a href="{% url 'share:change_photo_privacy' image.pk 'False' %}">Make this photo public</a>
+      {% else %}
+      <a href="{% url 'share:change_photo_privacy' image.pk 'True' %}">Make this photo private</a> 
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <ul align="center">
+        <img border="0" alt="" src="{% url 'share:img' image.pk %}" width="900" />
+    </ul>
+
+{% endblock %}
